@@ -2,6 +2,7 @@ package com.vitalii.mvpmovie.presenter;
 
 import com.vitalii.mvpmovie.contract.MovieListContract;
 import com.vitalii.mvpmovie.model.Movie;
+import com.vitalii.mvpmovie.service.MovieListModel;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ public class MoviePresenter implements MovieListContract.Presenter, MovieListCon
     private MovieListContract.View movieListView;
     private MovieListContract.Model movieListModel;
 
-    public MoviePresenter(MovieListContract.View movieListView, MovieListContract.Model movieListModel) {
+    public MoviePresenter(MovieListContract.View movieListView) {
         this.movieListView = movieListView;
-        this.movieListModel = movieListModel;
+        movieListModel = new MovieListModel();
     }
 
     @Override

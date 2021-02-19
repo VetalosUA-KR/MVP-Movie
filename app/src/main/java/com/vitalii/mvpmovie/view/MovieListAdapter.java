@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.vitalii.mvpmovie.R;
 import com.vitalii.mvpmovie.model.Movie;
+import com.vitalii.mvpmovie.networks.ApiClient;
 
 import java.util.List;
 
@@ -39,6 +40,10 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MyVi
         holder.tvMovieTitle.setText(movieList.get(position).getTitle());
         holder.tvReleaseDate.setText(movieList.get(position).getReleaseDate());
         holder.tvOverview.setText(movieList.get(position).getOverview());
+
+        Glide.with(context)
+                .load(ApiClient.IMAGE_BASE_URL+movieList.get(position).getPosterPath())
+                .into(holder.ivMovie);
     }
 
     @Override
