@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import com.vitalii.mvpmovie.contract.MovieListContract;
 import com.vitalii.mvpmovie.model.Movie;
 import com.vitalii.mvpmovie.presenter.MoviePresenter;
+import com.vitalii.mvpmovie.utils.BroadcastReceiver;
 import com.vitalii.mvpmovie.view.MovieListAdapter;
 
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
     private MoviePresenter moviePresenter;
 
     private int pageNumber = 1;
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver();
 
 
     @Override
@@ -76,6 +81,19 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
     public void onResponseFailure(Throwable throwable) {
         Log.e("Error:", throwable.getMessage());
         Toast.makeText(this, "Error in getting data", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(broadcastReceiver);
     }
 }
 
