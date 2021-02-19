@@ -20,13 +20,18 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MovieListContract.View {
 
-    private MoviePresenter moviePresenter;
+
     private RecyclerView rvMovieList;
-    private List<Movie> movieList;
-    private MovieListAdapter movieListAdapter;
     private ProgressBar pbLoading;
-    private int pageNumber = 1;
+    private List<Movie> movieList;
+
+    private MovieListAdapter movieListAdapter;
     private LinearLayoutManager linearLayoutManager;
+
+    private MoviePresenter moviePresenter;
+
+    private int pageNumber = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
         rvMovieList.setHasFixedSize(true);
 
         moviePresenter = new MoviePresenter(this);
+
+        //Ask the presenter to load data
         moviePresenter.requestDataFromServer();
 
     }
@@ -56,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
         pbLoading.setVisibility(View.GONE);
     }
 
+    //Data which we get from Presenter's, display in RecyclerView
+    //this data we get from MoviePresenter -> onFinished()
     @Override
     public void setDataToRecyclerView(List<Movie> movieListArray) {
         movieList.addAll(movieListArray);

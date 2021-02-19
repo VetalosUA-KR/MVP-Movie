@@ -19,6 +19,9 @@ public class MovieListModel implements MovieListContract.Model {
     private final String TAG = "MovieListModel";
     private int pageNumber = 1;
 
+    //Load data using Retrofit
+    //the request to download comes from MoviePresenter -> requestDataFromServer()
+    //after downloading the data, they are transferred to MoviePresenter -> onFinished()
     @Override
     public void getMovieList(OnFinishedListener onFinishedListener, int pageNumber) {
 
@@ -30,8 +33,9 @@ public class MovieListModel implements MovieListContract.Model {
             @Override
             public void onResponse(Call<MovieListResponse> call, Response<MovieListResponse> response) {
                 List<Movie> movies = response.body().getResults();
-                Log.i(TAG, "Number of movies received: "+movies.size());
+                //Log.i(TAG, "Number of movies received: "+movies.size());
 
+                //at successful loading we transferred data to method which processed in MoviePresenter
                 onFinishedListener.onFinished(movies);
             }
 
