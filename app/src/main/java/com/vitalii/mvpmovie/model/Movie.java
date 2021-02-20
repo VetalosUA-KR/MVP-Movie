@@ -1,9 +1,13 @@
 package com.vitalii.mvpmovie.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "movies") //DB
 public class Movie {
 
     @SerializedName("adult")
@@ -12,9 +16,11 @@ public class Movie {
     @SerializedName("backdrop_path")
     @Expose
     private String backdropPath;
-    @SerializedName("genre_ids")
+    /*@SerializedName("genre_ids")
     @Expose
-    private List<Integer> genreIds = null;
+    private List<Integer> genreIds = null;*/
+
+    @PrimaryKey // DB
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -65,13 +71,13 @@ public class Movie {
         this.backdropPath = backdropPath;
     }
 
-    public List<Integer> getGenreIds() {
+    /*public List<Integer> getGenreIds() {
         return genreIds;
     }
 
     public void setGenreIds(List<Integer> genreIds) {
         this.genreIds = genreIds;
-    }
+    }*/
 
     public Integer getId() {
         return id;

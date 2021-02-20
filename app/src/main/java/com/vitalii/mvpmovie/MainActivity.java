@@ -1,6 +1,7 @@
 package com.vitalii.mvpmovie;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,10 +52,20 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
         rvMovieList.setLayoutManager(linearLayoutManager);
         rvMovieList.setHasFixedSize(true);
 
-        moviePresenter = new MoviePresenter(this);
+        moviePresenter = new MoviePresenter(this, getApplication());
 
         //Ask the presenter to load data
         moviePresenter.requestDataFromServer();
+
+
+        moviePresenter.getAllMovieFromDB().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                for(Movie m : movies) {
+                    Log.i("trqss", m.getTitle());
+                }
+            }
+        });
 
     }
 

@@ -1,6 +1,9 @@
 package com.vitalii.mvpmovie.contract;
 
+import androidx.lifecycle.LiveData;
+
 import com.vitalii.mvpmovie.model.Movie;
+import com.vitalii.mvpmovie.service.MovieListModelDB;
 
 import java.util.List;
 
@@ -11,6 +14,11 @@ public interface MovieListContract {
         interface OnFinishedListener {
             void onFinished(List<Movie> moviesArrayList);
             void onFailure(Throwable throwable);
+        }
+
+        interface RoomDatabase {
+            LiveData<List<Movie>> getAllMovies();
+            void insertMovie(List<Movie> movieList);
         }
 
         void getMovieList(OnFinishedListener onFinishedListener, int pageNumber);
