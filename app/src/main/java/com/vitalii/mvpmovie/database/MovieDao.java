@@ -1,4 +1,4 @@
-package com.vitalii.mvpmovie.utils;
+package com.vitalii.mvpmovie.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

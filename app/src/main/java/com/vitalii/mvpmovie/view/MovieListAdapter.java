@@ -67,6 +67,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MyVi
         }
     }
 
+
+
 }
 
 

@@ -3,11 +3,20 @@ package com.vitalii.mvpmovie.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+
 
 public class BroadcastReceiver extends android.content.BroadcastReceiver {
 
-    public static Boolean isConnected = false;
+    public static boolean isConnected = true;
+    public static MutableLiveData<Boolean> status = new MutableLiveData<>();
     
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -21,6 +30,7 @@ public class BroadcastReceiver extends android.content.BroadcastReceiver {
                 Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show();
                 isConnected = true;
             }
+            status.setValue(isConnected);
         }
     }
 }

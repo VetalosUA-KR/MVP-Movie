@@ -55,7 +55,7 @@ public class MoviePresenter implements MovieListContract.Presenter, MovieListCon
         movieListModel.getMovieList(this, 1);
     }
 
-
+    @Override
     public void getAllMovieFromDB(LifecycleOwner lifecycleOwner) {
         movieListDB.getAllMovies().observe(lifecycleOwner, new Observer<List<Movie>>() {
             @Override
@@ -73,20 +73,8 @@ public class MoviePresenter implements MovieListContract.Presenter, MovieListCon
         //need to create a class MovieListModelDB in package "service" which will be responsible for saved Movie in database
         //then in this class we need create a method who will be send Movie to View if we don't have a internet
         //and in View we will be have a variable which has type a LiveData, and when we don't have internet we will be display Movie from database
-
-
         movieListView.setDataToRecyclerView(moviesArrayList);
         movieListDB.insertMovie(moviesArrayList);
-
-        /*movieListDB.getAllMovies().observe(application, new Observer<List<Movie>>() {
-            @Override
-            public void onChanged(List<Movie> movies) {
-                for(Movie m : movies) {
-
-                }
-            }
-        });*/
-
         if(movieListView != null) {
             movieListView.hideProgress();
         }

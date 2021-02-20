@@ -1,6 +1,7 @@
 package com.vitalii.mvpmovie;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,9 +56,32 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
         moviePresenter = new MoviePresenter(this, getApplication());
 
         //Ask the presenter to load data
+        //loadData();
 
 
+        // if status internet connection is changed, we get notified about this, and can change our UI
+        // now we have a problem, if we change internet status (off\on) in our recyclerView we have duplicate movie
+        checkInternetConnection();
+    }
 
+    private LifecycleOwner lifecycleOwner = this;
+    private void checkInternetConnection() {
+        BroadcastReceiver.status.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                //Log.i("testConnection", "connection: "+aBoolean.toString());
+
+                if(aBoolean) {
+                    moviePresenter.requestDataFromServer();
+                }
+                else {
+                    moviePresenter.getAllMovieFromDB(lifecycleOwner);
+                }
+            }
+        });
+    }
+
+    private void loadData() {
         if(BroadcastReceiver.isConnected) {
             moviePresenter.requestDataFromServer();
             Log.i("qwqw", "Load data from internet");
@@ -66,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
             moviePresenter.getAllMovieFromDB(this);
             Log.i("qwqw", "Load data from database");
         }
-
-
     }
 
     @Override
@@ -93,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
     public void onResponseFailure(Throwable throwable) {
         Log.e("Error:", throwable.getMessage());
         Toast.makeText(this, "Error in getting data", Toast.LENGTH_SHORT).show();
+        moviePresenter.getAllMovieFromDB(this);
     }
 
     @Override
@@ -106,6 +129,12 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
     protected void onStop() {
         super.onStop();
         unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        moviePresenter.onDestroy();
     }
 }
 

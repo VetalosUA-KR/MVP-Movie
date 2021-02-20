@@ -1,5 +1,6 @@
 package com.vitalii.mvpmovie.contract;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
 import com.vitalii.mvpmovie.model.Movie;
@@ -37,5 +38,6 @@ public interface MovieListContract {
         void onDestroy();
         void getMoreData(int pageNumber);
         void requestDataFromServer();
+        void getAllMovieFromDB(LifecycleOwner lifecycleOwner);
     }
 }
