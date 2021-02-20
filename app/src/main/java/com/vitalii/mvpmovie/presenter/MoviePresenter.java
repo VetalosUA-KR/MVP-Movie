@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
@@ -50,13 +51,18 @@ public class MoviePresenter implements MovieListContract.Presenter, MovieListCon
         if(movieListView != null) {
             movieListView.showProgress();
         }
-
         //Turn to Model for load data
         movieListModel.getMovieList(this, 1);
     }
 
-    public LiveData<List<Movie>> getAllMovieFromDB() {
-        return movieListDB.getAllMovies();
+
+    public void getAllMovieFromDB(LifecycleOwner lifecycleOwner) {
+        movieListDB.getAllMovies().observe(lifecycleOwner, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                movieListView.setDataToRecyclerView(movies);
+            }
+        });
     }
 
     //Method which is called in MovieListModel -> getMovieList()

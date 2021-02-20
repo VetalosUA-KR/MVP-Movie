@@ -55,17 +55,18 @@ public class MainActivity extends AppCompatActivity implements MovieListContract
         moviePresenter = new MoviePresenter(this, getApplication());
 
         //Ask the presenter to load data
-        moviePresenter.requestDataFromServer();
 
 
-        moviePresenter.getAllMovieFromDB().observe(this, new Observer<List<Movie>>() {
-            @Override
-            public void onChanged(List<Movie> movies) {
-                for(Movie m : movies) {
-                    Log.i("trqss", m.getTitle());
-                }
-            }
-        });
+
+        if(BroadcastReceiver.isConnected) {
+            moviePresenter.requestDataFromServer();
+            Log.i("qwqw", "Load data from internet");
+        }
+        else {
+            moviePresenter.getAllMovieFromDB(this);
+            Log.i("qwqw", "Load data from database");
+        }
+
 
     }
 
